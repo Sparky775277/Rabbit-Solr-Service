@@ -1,0 +1,70 @@
+<schema name="auditorium" version="1.6">
+    
+    <types>
+        
+        <fieldType name="string" class="solr.StrField" sortMissingLast="true" docValues="true"/>
+        
+        
+        <fieldType name="text_general" class="solr.TextField" positionIncrementGap="100">
+            <analyzer type="index">
+                <tokenizer class="solr.StandardTokenizerFactory"/>
+                <filter class="solr.LowerCaseFilterFactory"/>
+            </analyzer>
+            <analyzer type="query">
+                <tokenizer class="solr.StandardTokenizerFactory"/>
+                <filter class="solr.LowerCaseFilterFactory"/>
+            </analyzer>
+        </fieldType>
+        
+        
+        <fieldType name="date" class="solr.TrieDateField" precisionStep="0" positionIncrementGap="0"/>
+    </types>
+
+    
+    <fields>
+        
+        <field name="id" type="string" indexed="true" stored="true" required="true"/>
+        
+        
+        <field name="type" type="string" indexed="true" stored="true"/>
+        
+        
+        <field name="name_cat" type="string" indexed="true" stored="true"/>
+        <field name="name" type="text_general" indexed="true" stored="true"/>
+        
+        
+        <field name="lecture_room_id_s" type="string" indexed="true" stored="true" required="true"/>
+        <field name="lecture_room_number_s" type="string" indexed="true" stored="true" required="true"/>
+        <field name="lecture_room_name_s" type="string" indexed="true" stored="true" required="true"/>
+        <field name="lecture_room_name_t" type="text_general" indexed="true" stored="true"/>
+        <field name="lecture_room_building_name_s" type="string" indexed="true" stored="true"/>
+        <field name="lecture_room_building_name_t" type="text_general" indexed="true" stored="true"/>
+        <field name="lecture_room_type_name_s" type="string" indexed="true" stored="true"/>
+        <field name="lecture_room_type_name_t" type="text_general" indexed="true" stored="true"/>
+        <field name="lecture_room_purpose_name_s" type="string" indexed="true" stored="true"/>
+        <field name="lecture_room_purpose_name_t" type="text_general" indexed="true" stored="true"/>
+        <field name="lecture_room_department_name_s" type="string" indexed="true" stored="true"/>
+        <field name="lecture_room_department_name_t" type="text_general" indexed="true" stored="true"/>
+        
+        
+        <field name="_version_" type="long" indexed="false" stored="true"/>
+        <field name="timestamp" type="date" indexed="true" stored="true"/>
+    </fields>
+
+    
+    <uniqueKey>id</uniqueKey>
+    
+    
+    <defaultSearchField>name</defaultSearchField>
+    
+    
+    <copyField source="lecture_room_name_t" dest="text"/>
+    <copyField source="lecture_room_building_name_t" dest="text"/>
+    <copyField source="lecture_room_type_name_t" dest="text"/>
+    <copyField source="lecture_room_purpose_name_t" dest="text"/>
+    <copyField source="lecture_room_department_name_t" dest="text"/>
+    
+    
+    <dynamicField name="*_s" type="string" indexed="true" stored="true"/>
+    <dynamicField name="*_t" type="text_general" indexed="true" stored="true"/>
+</schema>
