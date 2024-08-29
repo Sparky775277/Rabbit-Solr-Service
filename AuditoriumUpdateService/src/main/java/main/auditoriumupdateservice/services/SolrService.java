@@ -4,8 +4,11 @@ import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.common.SolrInputDocument;
 import org.springframework.stereotype.Service;
 
+import java.io.Closeable;
+import java.io.IOException;
+
 @Service
-public class SolrService {
+public class SolrService implements Closeable {
 
     private final SolrClient solrClient;
 
@@ -18,7 +21,8 @@ public class SolrService {
         solrClient.commit();
     }
 
-    public void close() throws Exception {
+    @Override
+    public void close() throws IOException {
         solrClient.close();
     }
 }

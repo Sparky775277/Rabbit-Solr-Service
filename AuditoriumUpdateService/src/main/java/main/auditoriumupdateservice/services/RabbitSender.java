@@ -25,7 +25,7 @@ public class RabbitSender {
 
     private final RabbitTemplate rabbitTemplate;
 
-    private static final Logger logger = LoggerFactory.getLogger(RabbitSender.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(RabbitSender.class);
 
     @Scheduled(fixedDelayString = "${scheduler.fixedDelay}")
     public void sendRequestForAuditoriums() {
@@ -34,7 +34,7 @@ public class RabbitSender {
             msg.getMessageProperties().setMessageId(UUID.randomUUID().toString());
             return msg;
         };
-        logger.info("Request sent to queue: {}", queueName);
+        LOGGER.info("Request sent to queue: {}", queueName);
         rabbitTemplate.convertAndSend("", queueName, requestMessage, messagePostProcessor);
     }
 

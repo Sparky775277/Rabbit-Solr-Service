@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import jakarta.annotation.PostConstruct;
+
 @Configuration
 public class RabbitSolrConfig {
 
@@ -32,17 +34,16 @@ public class RabbitSolrConfig {
         return new Queue(queueName, false);
     }
 
-
     @Bean
     public CachingConnectionFactory connectionFactory() {
         CachingConnectionFactory cachingConnectionFactory = new CachingConnectionFactory("localhost");
         cachingConnectionFactory.setUsername(username);
-        cachingConnectionFactory.setUsername(password);
+        cachingConnectionFactory.setPassword(password);
         return cachingConnectionFactory;
     }
 
     @Bean
-    RabbitAdmin rabbitAdmin() {
+    public RabbitAdmin rabbitAdmin() {
         return new RabbitAdmin(connectionFactory());
     }
 
@@ -64,4 +65,5 @@ public class RabbitSolrConfig {
                 .withResponseParser(new XMLResponseParser())
                 .build();
     }
+
 }

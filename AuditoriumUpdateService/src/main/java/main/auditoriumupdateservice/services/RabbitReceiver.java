@@ -21,7 +21,7 @@ public class RabbitReceiver {
     private final SolrService solrService;
     private final ValidationService validationService;
     private final ObjectMapper objectMapper = new ObjectMapper();
-    private static final Logger logger = LoggerFactory.getLogger(RabbitReceiver.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(RabbitReceiver.class);
 
     public RabbitReceiver(SolrService solrService, ValidationService validationService) {
         this.solrService = solrService;
@@ -43,13 +43,13 @@ public class RabbitReceiver {
                 if (validationService.validateAuditoriumData(auditorium)) {
                     SolrInputDocument doc = mapToSolrDocument(auditorium);
                     solrService.addDocument(doc);
-                    logger.info("Id сообщения: {}, Время: {}, Статус: Успешно обработано", messageId, timestamp);
+                    LOGGER.info("Id сообщения: {}, Время: {}, Статус: Успешно обработано", messageId, timestamp);
                 } else {
-                    logger.warn("Id сообщения: {}, Время: {}, Статус: Ошибка ФЛК (Не проходят валидацию обязательные поля)", messageId, timestamp);
+                    LOGGER.warn("Id сообщения: {}, Время: {}, Статус: Ошибка ФЛК (Не проходят валидацию обязательные поля)", messageId, timestamp);
                 }
             }
         } catch (Exception e) {
-            logger.warn("Id сообщения: {}, Время: {}, Статус: Ошибка, Ошибка: {}", messageId, timestamp, e.getMessage());
+            LOGGER.warn("Id сообщения: {}, Время: {}, Статус: Ошибка, Ошибка: {}", messageId, timestamp, e.getMessage());
         }
     }
 

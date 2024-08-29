@@ -21,9 +21,9 @@ import java.util.UUID;
 @Setter
 public class RabbitReceiverAndSender {
 
-    private static final Logger log = LoggerFactory.getLogger(RabbitReceiverAndSender.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(RabbitReceiverAndSender.class);
     @Value("${response.queue.name}")
-    private String response_queue;
+    private String responseQueue;
 
     private final RabbitTemplate rabbitTemplate;
     private final List<String> responses;
@@ -50,12 +50,12 @@ public class RabbitReceiverAndSender {
                 return msg;
             };
 
-            log.info("Got request message from request queue!");
-            log.info("Send response message to response queue!");
+            LOGGER.info("Got request message from request queue!");
+            LOGGER.info("Send response message to response queue!");
 
             Message responseMessage = new Message(getNextResponse().getBytes(), new MessageProperties());
             responseMessage.getMessageProperties().setMessageId(UUID.randomUUID().toString());
-            rabbitTemplate.convertAndSend(response_queue, responseMessage, messagePostProcessor);
+            rabbitTemplate.convertAndSend(responseQueue, responseMessage, messagePostProcessor);
         }
     }
 

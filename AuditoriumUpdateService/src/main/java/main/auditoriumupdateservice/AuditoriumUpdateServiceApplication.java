@@ -12,17 +12,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableScheduling
 public class AuditoriumUpdateServiceApplication {
 
-    @Autowired
-    private RabbitAdmin rabbitAdmin;
-
-    @Autowired
-    private Queue queue;
-
-    @PostConstruct
-    public void declareQueue() {
-        rabbitAdmin.declareQueue(queue);
-    }
-
     public static void main(String[] args) {
         SpringApplication.run(AuditoriumUpdateServiceApplication.class, args);
     }
